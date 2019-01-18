@@ -59,9 +59,16 @@ class PhotoJournalViewController: UIViewController {
             
         }
         
+        let cancel =  UIAlertAction.init(title: "Cancel", style: .default) { (alert: UIAlertAction!) in
+            print("Cancel button pressed")
+            //PhotoJournalModel.delete(index: sender.tag)
+            
+        }
+        
         alert.addAction(delete)
         alert.addAction(save)
         alert.addAction(editAction)
+        alert.addAction(cancel)
         
         present(alert, animated: true, completion: nil)
     }

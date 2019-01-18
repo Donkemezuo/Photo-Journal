@@ -51,7 +51,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XpP-YU-VfP">
-                                                    <rect key="frame" x="187" y="273" width="120" height="30"/>
+                                                    <rect key="frame" x="187" y="273" width="120" height="33"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <state key="normal" title="....."/>
                                                     <connections>
                                                         <action selector="activityButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jXt-Xn-sq7"/>
