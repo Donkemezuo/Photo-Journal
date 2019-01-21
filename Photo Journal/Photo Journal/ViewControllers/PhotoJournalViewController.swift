@@ -16,6 +16,7 @@ class PhotoJournalViewController: UIViewController {
     
     @IBOutlet weak var addImage: UIBarButtonItem!
     var image: UIImage!
+   
     var photoJournals = [PhotoJournal]() {
         didSet {
             photoCollectionView.reloadData()
@@ -43,7 +44,8 @@ class PhotoJournalViewController: UIViewController {
         
         let editAction = UIAlertAction.init(title: "Edit", style: .default) { (alert: UIAlertAction!) in
             print("Edit button pressed")
-            self.setStoryBoard()
+            self.editPhotoJournal(index: sender.tag)
+         
             
         }
         
@@ -61,7 +63,7 @@ class PhotoJournalViewController: UIViewController {
         
         let cancel =  UIAlertAction.init(title: "Cancel", style: .default) { (alert: UIAlertAction!) in
             print("Cancel button pressed")
-            //PhotoJournalModel.delete(index: sender.tag)
+           
             
         }
         
@@ -74,21 +76,25 @@ class PhotoJournalViewController: UIViewController {
     }
     
     
-    func setStoryBoard (){
+    @IBAction func addPhoto(_ sender: Any) {
         let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
         guard let vc = storyBoard.instantiateViewController(withIdentifier: "DetailVC") as? PhotoDetailViewController else {return}
-        
         present(vc, animated: true, completion: nil)
-    }
     
-    @IBAction func addPhoto(_ sender: Any) {
-        
-        setStoryBoard()
     }
     
     
     func setData(){
         self.photoJournals = PhotoJournalModel.getImages()
+        
+    }
+    
+    func editPhotoJournal(index: Int){
+       
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil)
+        guard let vc = storyBoard.instantiateViewController(withIdentifier: "DetailVC") as? PhotoDetailViewController else {return}
+      vc.photoJournal = photoJournals[index]
+        present(vc, animated: true, completion: nil)
         
     }
     

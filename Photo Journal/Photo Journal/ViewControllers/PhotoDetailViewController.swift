@@ -15,6 +15,8 @@ class PhotoDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var imageDescription: UITextView!
+     var photoJournal: PhotoJournal!
+    var index = 0
     
     
     private var imagePickerViewController: UIImagePickerController!
@@ -28,7 +30,24 @@ class PhotoDetailViewController: UIViewController {
         imageView.contentMode = .scaleToFill
         updateUI()
         title = "Photos"
+        setUpDetailVC()
     }
+    
+    
+    private func setUpDetailVC(){
+        if let photoJournal = photoJournal{
+            imageDescription.text = photoJournal.description
+            if let image = UIImage.init(data: photoJournal.imageData) {
+                imageView.image = image
+            }
+            
+        } else {
+            imageDescription.text = ""
+            imageView.image = nil
+        }
+        
+    }
+    
     
 
     private func setupImagePickerViewController(){
@@ -56,6 +75,12 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func savePhoto(image: UIImage){
+        
+        
+        
+        
+        
+    
         if let imageData = image.jpegData(compressionQuality: 0.5){
             guard let imageDescription = imageDescription.text else {fatalError("No description")}
             
@@ -75,18 +100,49 @@ class PhotoDetailViewController: UIViewController {
             PhotoJournalModel.appendPhoto(photo: photo)
          
         }
+        
+        
     }
-    
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        
+        let date = Date()
+        let isoDateFormatter =  ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [ .withFullDate,
+                                           .withFullTime,
+                                           .withInternetDateTime,
+                                           .withTimeZone,
+                                           .withDashSeparatorInDate]
+        
+        let imageSetTime = isoDateFormatter.string(from: date)
+        
+        
+        
+        
+        
+        if let _ = photoJournal {
+            
+            if let image = imageView.image, let description = imageDescription.text {
+                if let imageData = image.jpegData(compressionQuality: 0.5) {
+                    let photoJournal = PhotoJournal.init(imageData:imageData, createdAt: imageSetTime, description: description)
+                    PhotoJournalModel.appendPhoto(photo: photoJournal)
+                }
+            }
+            
+            
+            
+        
+        } else {
+        
         if let image = self.imageView.image {
             savePhoto(image: image)
             dismiss(animated: true, completion: nil)
         }
         
         
+    }
     }
     
     
